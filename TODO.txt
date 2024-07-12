@@ -1,0 +1,11 @@
+- Create UserDto to get Library for
+	- Playlists
+	- Artists
+	- Albums
+	- Discographies
+	- Stations
+- Create Security => Ask GPT on how to do this
+- Setup Unit, Integration, and maybe Acceptance Tests
+- Work/Update on repos for prism-bucket and rename to prism-service, prism-agent-service, and prism-app
+- Setup Trello Board for Backend stuff => Look at frontend todos
+	- Ensure TODOs is done

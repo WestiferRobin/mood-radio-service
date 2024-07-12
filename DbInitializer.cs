@@ -1,6 +1,7 @@
+using MoodRadio.DB;
 using MoodRadio.Models;
 
-namespace MoodRadio.DB
+namespace MoodRadio
 {
     public static class DbInitializer
     {
@@ -9,10 +10,10 @@ namespace MoodRadio.DB
             context.Database.EnsureCreated(); // Ensure the database is created
 
             // Check if the table is empty
-            if (!context.Entities.Any())
+            if (!context.Users.Any())
             {
                 // Add initial data
-                context.Entities.AddRange(
+                context.Users.AddRange(
                     new User
                     {
                         UserName = "@WestiferRobin",

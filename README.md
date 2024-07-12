@@ -1,6 +1,7 @@
 # mood-radio-service
+This is the backend app service for https://github.com/WestiferRobin/mood-radio-app
 
-# Commands
+## Commands for CLI
 dotnet build => build project
 dotnet run => run project
 dotnet restore => nuget
@@ -10,7 +11,7 @@ docker run --name my-postgres --network bridge -e POSTGRES_PASSWORD=postgres -d 
 docker ps => sees container ID and other info
 docker inspect <CONTAINER ID> | grep IPAddress => get IP to run for mac
 docker inspect <CONTAINER ID> | findstr IPAddress => get IP to run for windows
-docker build -t prism-bucket-service . => builds it
-docker run -d -p 8080:80 prism-bucket-service => runs it
-docker run -d -p 8080:80 --name prism-bucket-container prism-bucket-service => runs it as container
+docker build -t mood-radio-service . => builds it
+docker run -d -p 8080:80 mood-radio-service => runs it
+docker run -d -p 8080:80 --name mood-radio-container mood-radio-service => runs it as container
 dotnet add package Microsoft.AspNetCore.Cors => for cors

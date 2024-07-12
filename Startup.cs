@@ -2,6 +2,7 @@ using MoodRadio.Repositories;
 using MoodRadio.Services;
 using MoodRadio.Models;
 using MoodRadio.DB;
+using MoodRadio.Mappers;
 
 namespace MoodRadio
 {
@@ -21,13 +22,15 @@ namespace MoodRadio
 
             services.AddControllers();
 
+            services.AddAutoMapper(typeof(UserMapper));
+
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
             PostgresContext.ConnectionString = Configuration.GetConnectionString("Database");
 
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IUserRepository<User>, UserRepository<User>>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddDbContext<PostgresContext>(options =>
                 Configuration.GetConnectionString("Database"));
                 // options.UseNpgsql(Constants.DB));

@@ -1,8 +1,10 @@
+using Microsoft.EntityFrameworkCore;
 using MoodRadio.DB;
+using MoodRadio.Models;
 
 namespace MoodRadio.Repositories
 {
-    public class UserRepository<T> : IUserRepository<T> where T : class
+    public class UserRepository : IUserRepository
     {
         private readonly PostgresContext context;
 
@@ -11,33 +13,32 @@ namespace MoodRadio.Repositories
             this.context = context;
         }
 
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<User>> GetAll()
         {
-            return context.Set<T>().ToList();
+            return await context.Users.ToListAsync();
         }
 
-        public T GetById(Guid id)
+        public async Task<User> GetById(Guid id)
         {
-            var result = context.Set<T>().Find(id);
-            return result ?? throw new Exception("This ain't right");
+            return await context.Users.FindAsync(id);
         }
 
-        public void Add(T entity)
-        {
-            context.Set<T>().Add(entity);
-            context.SaveChanges();
-        }
+        //public void Add(T entity)
+        //{
+        //    context.Set<T>().Add(entity);
+        //    context.SaveChanges();
+        //}
 
-        public void Update(T entity)
-        {
-            context.Set<T>().Update(entity);
-            context.SaveChanges();
-        }
+        //public void Update(T entity)
+        //{
+        //    context.Set<T>().Update(entity);
+        //    context.SaveChanges();
+        //}
 
-        public void Delete(T entity)
-        {
-            context.Set<T>().Remove(entity);
-            context.SaveChanges();
-        }
+        //public void Delete(T entity)
+        //{
+        //    context.Set<T>().Remove(entity);
+        //    context.SaveChanges();
+        //}
     }
 }

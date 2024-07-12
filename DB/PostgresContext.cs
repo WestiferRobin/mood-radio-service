@@ -8,7 +8,7 @@ namespace MoodRadio.DB
         public static string? ConnectionString;
         public PostgresContext(DbContextOptions<PostgresContext> options) : base(options) { }
 
-        public DbSet<User> Entities { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

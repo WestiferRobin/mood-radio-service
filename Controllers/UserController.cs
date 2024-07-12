@@ -1,7 +1,9 @@
 
+using AutoMapper;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using MoodRadio.Dtos;
+using MoodRadio.Services;
 
 namespace MoodRadio
 {
@@ -10,19 +12,29 @@ namespace MoodRadio
     [Route("user")]
     public class UserController : ControllerBase
     {
-        private static readonly string TestUser = "WestiferRobin";
-
+        private readonly IUserService userService;
         private readonly ILogger<UserController> logger;
+        private readonly IMapper mapper;
 
-        public UserController(ILogger<UserController> logger)
+        public UserController(IUserService userService, ILogger<UserController> logger, IMapper mapper)
         {
+            this.userService = userService;
             this.logger = logger;
+            this.mapper = mapper;
         }
 
-        [HttpGet(Name = "GetTestUser")]
-        public UserDto Get()
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(Guid id)
         {
-            return new UserDto(TestUser);
+            var user = await userService.GetUser(id);
+            if (user == null)
+            {
+                logger.LogInformation($"User not found for: {id}");
+                return NotFound();
+            }
+            logger.LogInformation($"Found user: {user.UserName}");
+            var userDto = mapper.Map<UserDto>(user);
+            return Ok(userDto);
         }
     }
 }

@@ -1,11 +1,13 @@
+using MoodRadio.Models;
+
 namespace MoodRadio.Repositories
 {
-    public interface IUserRepository<T>
+    public interface IUserRepository
     {
-        IEnumerable<T> GetAll();
-        T GetById(Guid id);
-        void Add(T entity);
-        void Update(T entity);
-        void Delete(T entity);
+        Task<IEnumerable<User>> GetAll();
+        Task<User> GetById(Guid id);
+        //void Add(T entity);
+        //void Update(T entity);
+        //void Delete(T entity);
     }
 }

@@ -6,17 +6,16 @@ namespace MoodRadio.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository<User> repository;
+        private readonly IUserRepository repository;
 
-        public UserService(IUserRepository<User> repository)
+        public UserService(IUserRepository repository)
         {
             this.repository = repository;
         }
 
-        public UserDto GetUser(Guid id)
+        public async Task<User> GetUser(Guid id)
         {
-            var user = repository.GetById(id) ?? throw new Exception($"{id} isnt a user");
-            return new UserDto(user.UserName);
+            return await repository.GetById(id);
         }
 
         // public void CreateUser(CreateUserDTO createDto)
