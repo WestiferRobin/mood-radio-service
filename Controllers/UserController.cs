@@ -24,7 +24,7 @@ namespace MoodRadio
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserById(Guid id)
+        public async Task<IActionResult> GetById(Guid id)
         {
             var user = await userService.GetUser(id);
             if (user == null)

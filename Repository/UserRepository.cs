@@ -18,27 +18,28 @@ namespace MoodRadio.Repositories
             return await context.Users.ToListAsync();
         }
 
-        public async Task<User?> GetById(Guid id)
+        public async Task<User> GetById(Guid id)
         {
             return await context.Users.FindAsync(id);
         }
 
-        //public void Add(T entity)
-        //{
-        //    context.Set<T>().Add(entity);
-        //    context.SaveChanges();
-        //}
+        public async Task Add(User user)
+        {
+            context.Users.Add(user);
+            await context.SaveChangesAsync();
+        }
 
-        //public void Update(T entity)
-        //{
-        //    context.Set<T>().Update(entity);
-        //    context.SaveChanges();
-        //}
+        public async Task Update(User user)
+        {
+            context.Users.Update(user);
+            await context.SaveChangesAsync();
+        }
 
-        //public void Delete(T entity)
-        //{
-        //    context.Set<T>().Remove(entity);
-        //    context.SaveChanges();
-        //}
+        public async Task DeleteById(Guid id)
+        {
+            var user = await GetById(id);
+            context.Users.Remove(user);
+            await context.SaveChangesAsync();
+        }
     }
 }
