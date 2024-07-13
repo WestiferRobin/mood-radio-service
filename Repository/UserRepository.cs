@@ -18,7 +18,7 @@ namespace MoodRadio.Repositories
             return await context.Users.ToListAsync();
         }
 
-        public async Task<User> GetById(Guid id)
+        public async Task<User?> GetById(Guid id)
         {
             return await context.Users.FindAsync(id);
         }

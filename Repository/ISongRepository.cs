@@ -2,7 +2,7 @@ using MoodRadio.Models.UserModels;
 
 namespace MoodRadio.Repositories
 {
-    public interface IArtistRepository
+    public interface ISongRepository
     {
     }
 }
