@@ -1,10 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MoodRadio.Models.LibraryModels
+namespace MoodRadio.Models.Library
 {
-    [Table("artists")]
-    public class Artist
+    [Table("albums")]
+    public class Album
     {
         [Key]
         [Column("id")]
@@ -13,7 +13,13 @@ namespace MoodRadio.Models.LibraryModels
         [Required]
         [Column("name")]
         public string Name { get; set; }
+
+        [Required]
+        [Column("artist_id")]
+        public Guid ArtistId { get; set; }
+        [ForeignKey("ArtistId")]
+        public Artist Artist { get; set; }
+
         public ICollection<Song> Songs { get; set; }
-        public ICollection<Album> Albums { get; set; }
     }
 }

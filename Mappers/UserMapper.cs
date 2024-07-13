@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MoodRadio.Dtos.UserDtos;
-using MoodRadio.Models.UserModels;
+using MoodRadio.Models.Users;
 
 namespace MoodRadio.Mappers
 {

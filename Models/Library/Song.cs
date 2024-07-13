@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MoodRadio.Models.LibraryModels
+namespace MoodRadio.Models.Library
 {
     [Table("songs")]
     public class Song

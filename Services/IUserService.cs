@@ -1,4 +1,4 @@
-using MoodRadio.Models.UserModels;
+using MoodRadio.Models.Users;
 
 namespace MoodRadio.Services
 {
