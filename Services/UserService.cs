@@ -1,3 +1,5 @@
+using MoodRadio.Dtos.LibraryDtos;
+using MoodRadio.Dtos.UserDtos;
 using MoodRadio.Models.Users;
 using MoodRadio.Repositories;
 
@@ -17,39 +19,20 @@ namespace MoodRadio.Services
             return await repository.GetById(id);
         }
 
-        // public void CreateUser(CreateUserDTO createDto)
-        // {
-        //     var entity = new User
-        //     {
-        //         UserName = createDto.UserName,
-        //         FirstName = createDto.FirstName,
-        //         LastName = createDto.LastName,
-        //         Email = createDto.Email,
-        //         BirthDate = createDto.BirthDate,
-        //     };
-        //     repository.Add(entity);
-        // }
-
-        // public UserDTO UpdateUser(Guid id, UpdateDto updateDto)
-        // {
-        //     var user = repository.GetById(id);
-        //     if (user != null)
-        //     {
-        //         if (updateDto.UserName != null) user.UserName = updateDto.UserName;
-        //         if (updateDto.FirstName != null) user.FirstName = updateDto.FirstName;
-        //         if (updateDto.LastName != null) user.LastName = updateDto.LastName;
-        //         if (updateDto.Email != null) user.Email = updateDto.Email;
-        //         if (updateDto.BirthDate != null) user.BirthDate = updateDto.BirthDate.Value;
-        //         repository.Update(user);
-        //         var dto = new UserDTO()
-        //         {
-        //             UserName = user.UserName,
-        //             FirstName = user.FirstName,
-        //             LastName = user.LastName,
-        //         };
-        //         return dto;
-        //     }
-        //     throw new NullReferenceException($"User for {id} doesn't exists");
-        // }
+        // TODO: Finish this
+        public async Task<UserLibraryResponseDto> GetUserLibrary(UserLibraryRequestDto request)
+        {
+            var user = await GetUser(request.Id);
+            var album = new AlbumDto() {
+                Name = user.UserName
+            };
+            var ans = new UserLibraryResponseDto()
+            {
+                Items = new List<LibraryItemDto>() {
+                    album
+                }
+            };
+            return ans;
+        }
     }
 }

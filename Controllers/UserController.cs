@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using MoodRadio.Dtos.UserDtos;
 using MoodRadio.Services;
 
-namespace MoodRadio
+namespace MoodRadio.Controllers
 {
     [ApiController]
     [EnableCors("CorsPolicy")]
@@ -24,7 +24,7 @@ namespace MoodRadio
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(Guid id)
+        public async Task<IActionResult> GetUser(Guid id)
         {
             var user = await userService.GetUser(id);
             if (user == null)
@@ -32,9 +32,26 @@ namespace MoodRadio
                 logger.LogInformation($"User not found for: {id}");
                 return NotFound();
             }
-            logger.LogInformation($"Found user: {user.UserName}");
+            
             var userDto = mapper.Map<UserDto>(user);
+            logger.LogInformation($"Found user: {userDto.Username}");
+            
             return Ok(userDto);
+        }
+
+        // /user/library => POST
+        [HttpPost("/library")]
+        public async Task<IActionResult> GetUserLibrary([FromBody] UserLibraryRequestDto request)
+        {
+            var response = await userService.GetUserLibrary(request);
+            if (response == null)
+            {
+                logger.LogError($"User's Library is not found for {request}");
+            }
+
+            logger.LogInformation($"User's Library is found {response}");
+
+            return Ok(response);
         }
     }
 }

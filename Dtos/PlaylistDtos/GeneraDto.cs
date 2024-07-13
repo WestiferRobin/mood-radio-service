@@ -1,3 +1,0 @@
-namespace MoodRadio.Dtos.PlaylistDtos
-{
-}
