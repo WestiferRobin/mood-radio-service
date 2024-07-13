@@ -2,7 +2,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using MoodRadio.Dtos;
+using MoodRadio.Dtos.UserDtos;
 using MoodRadio.Services;
 
 namespace MoodRadio

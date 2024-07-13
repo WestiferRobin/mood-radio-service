@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MoodRadio.DB;
-using MoodRadio.Models;
+using MoodRadio.Models.UserModels;
 
 namespace MoodRadio.Repositories
 {

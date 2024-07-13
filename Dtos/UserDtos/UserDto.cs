@@ -1,5 +1,6 @@
 
-namespace MoodRadio.Dtos
+namespace MoodRadio.Dtos.UserDtos
+
 {
     public class UserDto
     {

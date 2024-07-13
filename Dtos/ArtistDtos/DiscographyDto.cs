@@ -1,0 +1,4 @@
+namespace MoodRadio.Dtos.ArtistDtos
+{
+    
+}

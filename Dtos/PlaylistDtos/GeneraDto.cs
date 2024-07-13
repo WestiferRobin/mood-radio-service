@@ -1,0 +1,3 @@
+namespace MoodRadio.Dtos.PlaylistDtos
+{
+}

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MoodRadio.Models
+namespace MoodRadio.Models.UserModels
 {
     [Table("users")]
     public class User
