@@ -40,19 +40,6 @@ namespace MoodRadio.Controllers
         }
 
         // /user/library => POST
-        [HttpPost("/library")]
-        public async Task<IActionResult> GetUserLibrary([FromBody] UserLibraryRequestDto request)
-        {
-            var response = await userService.GetUserLibrary(request);
-            if (response == null)
-            {
-                logger.LogError($"User's Library is not found for {request}");
-            }
-
-            logger.LogInformation($"User's Library is found {response}");
-
-            return Ok(response);
-        }
     }
 }
 

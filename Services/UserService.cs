@@ -23,15 +23,7 @@ namespace MoodRadio.Services
         public async Task<UserLibraryResponseDto> GetUserLibrary(UserLibraryRequestDto request)
         {
             var user = await GetUser(request.Id);
-            var album = new AlbumDto() {
-                Name = user.UserName
-            };
-            var ans = new UserLibraryResponseDto()
-            {
-                Items = new List<LibraryItemDto>() {
-                    album
-                }
-            };
+            var ans = new UserLibraryResponseDto();
             return ans;
         }
     }

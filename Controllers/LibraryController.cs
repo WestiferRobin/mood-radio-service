@@ -2,8 +2,9 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-// using MoodRadio.Dtos.LibraryDtos;
-// using MoodRadio.Services;
+using MoodRadio.Dtos.LibraryDtos.Requests;
+using MoodRadio.Dtos.LibraryDtos.Responses;
+using MoodRadio.Services;
 
 namespace MoodRadio.Controllers
 {
@@ -12,45 +13,59 @@ namespace MoodRadio.Controllers
     [Route("library")]
     public class LibraryController : ControllerBase
     {
-        // private readonly ILibraryService libraryService;
+        private readonly ILibraryService libraryService;
         private readonly ILogger<LibraryController> logger;
         private readonly IMapper mapper;
 
-        // public LibraryController(ILibraryService libraryService, ILogger<LibraryController> logger, IMapper mapper)
-        public LibraryController(ILogger<LibraryController> logger, IMapper mapper)
+        public LibraryController(ILibraryService libraryService, ILogger<LibraryController> logger, IMapper mapper)
         {
-            // this.libraryService = libraryService;
+            this.libraryService = libraryService;
             this.logger = logger;
             this.mapper = mapper;
         }
 
         // /artist
-        /*
-        request:
+        [HttpPost("artist")]
+        public async Task<IActionResult> GetArtist([FromBody] ArtistRequestDto request)
+        {
+            var artistId = request.ArtistId;
+
+            var artist = await this.libraryService.GetArtistById(artistId);
+            if (artist == null) return NotFound();
+
+            var artistAlbums = await this.libraryService.GetArtistAlbumsById(artistId);
+            if (artistAlbums.Count() <= 0) return NotFound();
+            var albums = new List<AlbumDto>();
+            foreach (var album in artistAlbums)
             {
-                artistId: uuid
+                var albumDto = new AlbumDto() {
+                    Name = album.Name
+                };
+                albums.Add(albumDto);
             }
-        response:
+
+            var songs = await this.libraryService.GetArtistSongsById(artistId);
+            if (songs.Count() <= 0) return NotFound();
+            var topTen = new List<SongDto>();
+            for (int index = 0; index < 10; index++)
             {
-                name: string
-                topTen: [
-                    {
-                        songId: uuid
-                        title: string
-                        duration: {
-                            min: int
-                            sec: int
-                        }
-                    }
-                ]
-                albums: [
-                    {
-                        albumId: uuid
-                        title: string
-                    }
-                ]
+                var song = songs.ElementAt(index);
+                var songDto = new SongDto()
+                {
+                    Name = song.Title,
+                    Duration = song.Duration
+                };
+                topTen.Add(songDto);
             }
-        */
+
+            var response = new ArtistResponseDto() {
+                Name = artist.Name,
+                TopTen = topTen,
+                Albums = albums
+            };
+
+            return Ok(response);
+        }
         // /artist/discography
         /*
         request:

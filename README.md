@@ -1,5 +1,6 @@
 # mood-radio-service
 This is the backend app service for https://github.com/WestiferRobin/mood-radio-app
+Right now it's a monolithic api but will be refactored into microservices
 
 ## Commands for CLI
 dotnet build => build project

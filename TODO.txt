@@ -4,8 +4,19 @@
 	- Albums
 	- Discographies
 	- Generas
+- Finish mono arch and then plaan into microservices
+- Refactor into microservices
+	- 1st for user info for mood-radio, prism-bucket, and hedron-hive
+		- platform-user-service
+	- 2nd for library stuff for ONLY mood-radio. Need TODO designs with GPT on creating an impressive microservice arch
+		- mood-library-service
+		- mood-preference-service
 - Create Security => Ask GPT on how to do this
 - Setup Unit, Integration, and maybe Acceptance Tests
 - Work/Update on repos for prism-bucket and rename to prism-service, prism-agent-service, and prism-app
 - Setup Trello Board for Backend stuff => Look at frontend todos
 	- Ensure TODOs is done
+
+
+
+- 

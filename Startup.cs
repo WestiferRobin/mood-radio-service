@@ -3,6 +3,7 @@ using MoodRadio.Services;
 using MoodRadio.Models;
 using MoodRadio.DB;
 using MoodRadio.Mappers;
+using MoodRadio.Repositories.Library;
 
 namespace MoodRadio
 {
@@ -30,7 +31,13 @@ namespace MoodRadio
             PostgresContext.ConnectionString = Configuration.GetConnectionString("Database");
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ILibraryService, LibraryService>();
+
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IArtistRepository, ArtistRepository>();
+            services.AddScoped<IAlbumRepository, AlbumRepository>();
+            services.AddScoped<ISongRepository, SongRepository>();
+
             services.AddDbContext<PostgresContext>(options =>
                 Configuration.GetConnectionString("Database"));
                 // options.UseNpgsql(Constants.DB));

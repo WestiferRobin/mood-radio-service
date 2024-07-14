@@ -5,6 +5,7 @@ namespace MoodRadio.Dtos.UserDtos
 {
     public class UserLibraryResponseDto
     {
-        public List<LibraryItemDto> Items { get; set; }
+        // TODO FIX THIS
+        // public List<LibraryItemDto> Items { get; set; }
     }
 }

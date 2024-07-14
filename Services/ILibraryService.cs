@@ -11,16 +11,15 @@ namespace MoodRadio.Services
 
         #region Album Methods
         Task<IEnumerable<Album>> GetAllAlbums();
-        Task<IEnumerable<Album>> GetArtistAlbumsById(Guid artistId);
-        Task<IEnumerable<Album>> GetArtistAlbums(Artist artist);
         Task<Album> GetAlbumById(Guid albumId);
+        Task<IEnumerable<Album>> GetArtistAlbumsById(Guid artistId);
         #endregion
 
         #region  Song Methods
         Task<IEnumerable<Song>> GetAllSongs();
-        Task<IEnumerable<Song>> GetArtistSongs(Artist artist);
-        Task<IEnumerable<Song>> GetAlbumSongs(Album album);
         Task<Song> GetSongById(Guid songId);
+        Task<IEnumerable<Song>> GetArtistSongsById(Guid artistId);
+        Task<IEnumerable<Song>> GetAlbumSongsById(Guid albumId);
         #endregion
 
         // TODO: Implement this somehow => Maybe create a model instead of dtos?
