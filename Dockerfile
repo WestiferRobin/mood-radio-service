@@ -1,20 +1,25 @@
-# Use the official .NET SDK image as a build environment
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+USER app
 WORKDIR /app
+EXPOSE 8080
+EXPOSE 8081
 
-# Copy the project file and restore dependencies
-COPY *.csproj ./
-RUN dotnet restore
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+COPY ["MoodUserApi.csproj", "."]
+RUN dotnet restore "./MoodUserApi.csproj"
+COPY . .
+WORKDIR "/src/."
+RUN dotnet build "./MoodUserApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# Copy the remaining files and build the application
-COPY . ./
-RUN dotnet publish -c Release -o out
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./MoodUserApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# Build the runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
+FROM base AS final
 WORKDIR /app
-COPY --from=build /app/out .
-
-EXPOSE 80
-
-ENTRYPOINT ["dotnet", "MoodRadio.dll"]
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "MoodUserApi.dll"]
