@@ -6,7 +6,7 @@
 	- Stations
 - Finish mono arch and then plaan into microservices => LOOK AT BOTTOM!!!!!!
 - Setup Unit, Integration, and maybe Acceptance Tests
-- 
+- Work on Trello Board
 
 
 FROM GPT FOR MICRO-SERVICE REFACTOR:
