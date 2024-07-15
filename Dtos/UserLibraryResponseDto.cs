@@ -1,7 +1,5 @@
 
-using MoodRadio.Dtos.LibraryDtos;
-
-namespace MoodRadio.Dtos.UserDtos
+namespace MoodRadio.Dtos
 {
     public class UserLibraryResponseDto
     {

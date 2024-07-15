@@ -1,7 +1,0 @@
-namespace MoodRadio.Models.Library.Playlists
-{
-    public class Playlist
-    {
-        
-    }
-}

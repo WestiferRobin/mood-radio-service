@@ -1,6 +1,4 @@
-using MoodRadio.Dtos.LibraryDtos;
-using MoodRadio.Dtos.UserDtos;
-using MoodRadio.Models.Users;
+using MoodRadio.Models;
 using MoodRadio.Repositories;
 
 namespace MoodRadio.Services
@@ -14,17 +12,14 @@ namespace MoodRadio.Services
             this.repository = repository;
         }
 
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            return await repository.GetAll();
+        }
+
         public async Task<User> GetUser(Guid id)
         {
             return await repository.GetById(id);
-        }
-
-        // TODO: Finish this
-        public async Task<UserLibraryResponseDto> GetUserLibrary(UserLibraryRequestDto request)
-        {
-            var user = await GetUser(request.Id);
-            var ans = new UserLibraryResponseDto();
-            return ans;
         }
     }
 }

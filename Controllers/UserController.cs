@@ -2,7 +2,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using MoodRadio.Dtos.UserDtos;
+using MoodRadio.Dtos;
 using MoodRadio.Services;
 
 namespace MoodRadio.Controllers
@@ -23,6 +23,22 @@ namespace MoodRadio.Controllers
             this.mapper = mapper;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await userService.GetAllUsers();
+            if (!users.Any()) return NotFound("There are no users");
+            
+            var userDtos = new List<UserDto>();
+            foreach (var user in users)
+            {
+                var userDto = mapper.Map<UserDto>(user);
+                userDtos.Add(userDto);
+            }
+
+            return Ok(userDtos);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(Guid id)
         {
@@ -39,7 +55,7 @@ namespace MoodRadio.Controllers
             return Ok(userDto);
         }
 
-        // /user/library => POST
+
     }
 }
 
