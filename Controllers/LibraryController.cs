@@ -2,6 +2,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using MoodRadio.Dtos.LibraryDtos;
 using MoodRadio.Dtos.LibraryDtos.Requests;
 using MoodRadio.Dtos.LibraryDtos.Responses;
 using MoodRadio.Services;
@@ -24,35 +25,55 @@ namespace MoodRadio.Controllers
             this.mapper = mapper;
         }
 
-        // /artist
-        [HttpPost("artist")]
+        #region Artist Endpoints
+
+        [HttpGet("artists")]
+        public async Task<IActionResult> GetArtists()
+        {
+            var artists = await libraryService.GetAllArtists();
+            if (!artists.Any()) return NotFound();
+
+            var artistDtos = new List<ArtistDto>();
+            foreach (var artist in artists)
+            {
+                var artistDto = new ArtistDto()
+                {
+                    Name = artist.Name
+                };
+                artistDtos.Add(artistDto);
+            }
+
+            return Ok(artistDtos);
+        }
+
+        [HttpPost("artist")] // This is for the Artist's View in React
         public async Task<IActionResult> GetArtist([FromBody] ArtistRequestDto request)
         {
             var artistId = request.ArtistId;
 
-            var artist = await this.libraryService.GetArtistById(artistId);
+            var artist = await libraryService.GetArtistById(artistId);
             if (artist == null) return NotFound();
 
-            var artistAlbums = await this.libraryService.GetArtistAlbumsById(artistId);
-            if (artistAlbums.Count() <= 0) return NotFound();
-            var albums = new List<AlbumDto>();
+            var artistAlbums = await libraryService.GetArtistAlbumsById(artistId);
+            if (!artistAlbums.Any()) return NotFound();
+            var albums = new List<AlbumNameDto>();
             foreach (var album in artistAlbums)
             {
-                var albumDto = new AlbumDto() {
+                var albumDto = new AlbumNameDto() {
                     Name = album.Name
                 };
                 albums.Add(albumDto);
             }
 
-            var songs = await this.libraryService.GetArtistSongsById(artistId);
-            if (songs.Count() <= 0) return NotFound();
+            var songs = await libraryService.GetArtistSongsById(artistId);
+            if (!songs.Any()) return NotFound();
             var topTen = new List<SongDto>();
             for (int index = 0; index < 10; index++)
             {
                 var song = songs.ElementAt(index);
                 var songDto = new SongDto()
                 {
-                    Name = song.Title,
+                    Name = song.Name,
                     Duration = song.Duration
                 };
                 topTen.Add(songDto);
@@ -66,161 +87,116 @@ namespace MoodRadio.Controllers
 
             return Ok(response);
         }
-        // /artist/discography
-        /*
-        request:
-            {
-                artistId: string
-            }
-        response:
-            {
-                discography: [
-                    {
-                        albumId: uuid
-                        albumName: string
-                        songs: [
-                            {
-                                songId: uuid
-                                title: string
-                                duration: {
-                                    min: int
-                                    sec: int
-                                }
-                            }
-                        ]
-                    }
-                ]
-            }
-        */
-        // /artist/albums
-        /*
-        request:
-            {
-                artistId: uuid
-                albumIds: [uuid]?
-            }
-        response:
-            {
-                albums: [
-                    {
-                        albumId: uuid
-                        albumName: string
-                        songs: [
-                            {
-                                songId: uuid
-                                title: string
-                                duration: {
-                                    min: int
-                                    sec: int
-                                }
-                            }
-                        ]
-                    }
-                ]
-            }
-        */
-        // /artist/songs
-        /*
-        request:
-            {
-                artistId: uuid
-                songIds: [uuid]?
-            }
-        response:
-            {
-                songs: [
-                    {
-                        songId: uuid
-                        title: string
-                        albumId: uuid
-                        albumName: string
-                        duration: {
-                            min: int
-                            sec: int
-                        }
-                    }
-                ]
-            }
-        */
 
-        // /album
-        /*
-        request:
-            {
-                albumIds: [uuid]?
-            }
-        response:
-            {
-                albums: [
-                    {
-                        artistId: uuid
-                        artistName: string
-                        albumId: uuid
-                        albumName: string
-                        songs: [
-                            {
-                                songId: uuid
-                                title: string
-                                duration: {
-                                    min: int
-                                    sec: int
-                                }
-                            }
-                        ]
-                    }
-                ]
-            }
-        */
-        // /album/songs
-        /*
-        request:
-            {
-                albumIds: [uuid]?
-            }
-        response:
-            {
-                songs: [
-                    {
-                        artistId: uuid
-                        artistName: string
-                        albumId: uuid
-                        albumName: string
-                        songId: uuid
-                        title: string
-                        duration: {
-                            min: int
-                            sec: int
-                        }
-                    }
-                ]
-            }
-        */
+        [HttpPost("artist/discography")] // This is for the Dicography's View in React
+        public async Task<IActionResult> GetDiscography([FromBody] ArtistRequestDto request)
+        {
+            var artistId = request.ArtistId;
+            var artist = await libraryService.GetArtistById(artistId);
+            if (artist == null) return NotFound();
 
-        // /song
+            var albums = await libraryService.GetArtistAlbumsById(artistId);
+            if (!albums.Any()) return NotFound();
+            
+            var albumDtos = new List<AlbumDto>();
+            foreach (var album in albums)
+            {
+                var albumId = album.Id;
 
-        /*
-        request:
-            {
-                songIds: [uuid]?
-            }
-        response:
-            {
-                songs: [
+                var songs = await libraryService.GetAlbumSongsById(albumId);
+                var songDtos = new List<SongDto>();
+                foreach (var song in songs)
+                {
+                    var songDto = new SongDto()
                     {
-                        artistId: uuid
-                        artistName: string
-                        albumId: uuid
-                        albumName: string
-                        songId: uuid
-                        title: string
-                        duration: {
-                            min: int
-                            sec: int
-                        }
-                    }
-                ]
+                        Name = song.Name,
+                        Duration = song.Duration
+                    };
+                    songDtos.Add(songDto);
+                }
+
+                var albumDto = new AlbumDto()
+                {
+                    Name = album.Name,
+                    Songs = songDtos
+                };
+                albumDtos.Add(albumDto);
             }
-        */
+
+            var response = new DiscographyResponseDto()
+            {
+                ArtistName = artist.Name,
+                Discography = albumDtos
+            };
+            return Ok(response);
+        }
+        #endregion
+
+        #region Album Endpoints
+        [HttpGet("albums")]
+        public async Task<IActionResult> GetAlbums()
+        {
+            var albums = await libraryService.GetAllAlbums();
+            if (!albums.Any()) return NotFound();
+
+            var albumDtos = new List<AlbumNameDto>();
+            foreach (var album in albums)
+            {
+                var albumDto = new AlbumNameDto()
+                {
+                    Name = album.Name
+                };
+                albumDtos.Add(albumDto);
+            }
+
+            return Ok(albumDtos);
+        }
+
+        [HttpPost("album")]
+        public async Task<IActionResult> GetAlbum([FromBody] AlbumRequestDto request)
+        {
+            var albumId = request.AlbumId;
+
+            var album = await libraryService.GetAlbumById(albumId);
+            if (album == null) return NotFound();
+
+            var artist = await libraryService.GetArtistById(album.ArtistId);
+            if (artist == null) return NotFound();
+
+            var songs = await libraryService.GetAlbumSongsById(albumId);
+            if (!songs.Any()) return NotFound();
+
+            var songDtos = new List<SongDto>();
+            foreach (var song in songs)
+            {
+                var songDto = new SongDto()
+                {
+                    Name = song.Name,
+                    Duration = song.Duration
+                };
+                songDtos.Add(songDto);
+            }
+
+            var response = new AlbumResponseDto()
+            {
+                AlbumName = album.Name,
+                ArtistName = artist.Name,
+                Songs = songDtos
+            };
+
+            return Ok(response);
+        }
+        #endregion
+
+        #region TODO Playlist Endpoints
+        // Get all playlists
+        // Get a specific playlist
+        #endregion
+
+        #region  TODO Station Endpoints
+        // Get all stations
+        // Get a specific station
+        #endregion
     }
 }
 

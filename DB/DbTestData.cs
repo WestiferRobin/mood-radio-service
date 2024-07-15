@@ -96,7 +96,7 @@ namespace MoodRadio.DB
 
                         var song = new Song
                         {
-                            Title = $"Track #{index + 1}",
+                            Name = $"Track #{index + 1}",
                             Duration = duration,
                             AlbumId = album.Id,
                             ArtistId = artist.Id

@@ -11,8 +11,8 @@ namespace MoodRadio.Models.Library
         public Guid Id { get; set; }
 
         [Required]
-        [Column("title")]
-        public string Title { get; set; }
+        [Column("name")]
+        public string Name { get; set; }
 
         [Required]
         [Column("duration")]
