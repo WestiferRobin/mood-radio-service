@@ -1,6 +1,8 @@
 # mood-radio-service
-This is the backend app service for https://github.com/WestiferRobin/mood-radio-app
+TODO: Refactor into Spring Boot
 Right now it's a monolithic api but will be refactored into microservices
+- work with mood-media-service
+- work with platform-user-service
 
 ## Commands for CLI
 dotnet build => build project
